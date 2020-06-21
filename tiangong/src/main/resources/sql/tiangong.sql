@@ -1,4 +1,7 @@
---1. 管理员表
+drop database if exists tiangong;
+create database tiangong;
+use tiangong;
+-- 1. 管理员表
 drop table if exists Admin;
 create table admin(
 	id int(11) primary key AUTO_INCREMENT,
@@ -12,7 +15,7 @@ insert into admin(name,password,level) values('root','root',0);
 insert into admin(name,password,level) values('yqyh','123',0);
 insert into admin(name,password,level) values('admin1','123',0);
 
---2.用户表
+-- 2.用户表
 drop table if exists tb_user;
 create table tb_user(
 	id int(11) primary key AUTO_INCREMENT,
@@ -34,7 +37,7 @@ create table tb_user(
 	msg_count_not_read int default 0,
 	noAdv_time datetime,
 	money DECIMAL(6,2) default 0,
-	motto varchar(100)
+	mtto varchar(100)
 );
 
 insert into tb_user(phone,password,username) value('17816119937','123','yqyh');
@@ -49,6 +52,17 @@ create table  Series(
 	name varchar(32) not null unique
 );
 
+
+
+-- 类型表
+drop table if exists Types;
+create table Types(
+	id int(11) primary key AUTO_INCREMENT,
+	name varchar(32) not null unique
+);
+insert into types(name) values('雕塑');
+
+
 -- 类型流量数据表
 drop table if exists Type_datas;
 create table Type_datas(
@@ -61,15 +75,7 @@ create table Type_datas(
 	FOREIGN KEY (type_id)  REFERENCES Types(id)
 );
 
--- 类型表
-drop table if exists Types;
-create table Types(
-	id int(11) primary key AUTO_INCREMENT,
-	name varchar(32) not null unique
-);
-insert into types(name) values('雕塑');
-
---词条表(0)
+-- 词条表(0)
 drop table if exists Entries;
 create table Entries(
 	id int(11) primary key AUTO_INCREMENT,
@@ -79,7 +85,8 @@ create table Entries(
 	click int default 0,
 	FOREIGN KEY (type_id)  REFERENCES Types(id)
 );
---工艺品表
+
+-- 工艺品表
 drop table if exists Craft;
 create  table Craft(
 	id int(11) primary key AUTO_INCREMENT,
@@ -102,7 +109,7 @@ create  table Craft(
 	FOREIGN KEY (entries_id)  REFERENCES Entries(id)
 );
 
---视频表
+-- 视频表
 drop table if exists Video;
 create table Video(
 	id int(11) primary key AUTO_INCREMENT,
@@ -131,7 +138,7 @@ create table Video(
 insert into video(name,user_id,video_url,release_time,type,type_id) values('雕塑视频',1,'vedio/yqyh/ds.avi',now(),'雕塑',1);
 insert into video(name,user_id,video_url,release_time,type,type_id) values('雕塑视频2',1,'vedio/yqyh/ds2.avi',now(),'雕塑',1);
 
---教程表
+-- 教程表
 drop table if exists Course;
 create table Course(
 	id int(11) primary key AUTO_INCREMENT,
@@ -203,7 +210,7 @@ create  table personnal_rec(
 	video_id int(11)
 );
 
---关注表
+-- 关注表
 drop table if exists focus;
 create table focus(
 	user_id int(11) not null,
@@ -215,7 +222,7 @@ insert into focus(user_id,focus_id) value(1,2);
 insert into focus(user_id,focus_id) value(2,1);
 insert into focus(user_id,focus_id) value(3,1);
 
---历史记录表
+-- 历史记录表
 drop table  if exists history;
 create table history(
 	user_id int(11) not null,
@@ -261,7 +268,7 @@ create table Messages(
 	FOREIGN KEY (sender_id)  REFERENCES tb_user(id),
 	FOREIGN KEY (recipient_id)  REFERENCES tb_user(id)
 );
-insert into Messages(sender_id,recipient_id,content,post_time);
+
 
 -- 活动表（改动）
 drop table if exists Activity;
@@ -296,7 +303,7 @@ create table Introduction(
 	FOREIGN KEY (entries_id)  REFERENCES Entries(id)
 );
 
---活动成员表
+-- 活动成员表
 drop table if exists Activity_members;
 create table Activity_members(
 	id int(11) not null,
@@ -327,7 +334,7 @@ create table tb_like(
 	FOREIGN KEY (user_id)  REFERENCES tb_user(id)
 );
 
---动态表
+-- 动态表
 drop table  if exists Dynamics;
 create table Dynamics (
 	id int primary key AUTO_INCREMENT,
@@ -390,3 +397,4 @@ create table activity_picture (
 	url varchar(100),
 	activity_id int
 );
+
